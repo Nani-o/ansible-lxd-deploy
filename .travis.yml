@@ -48,7 +48,7 @@ install:
   # Create ansible.cfg with correct roles_path
   - >
     docker exec --tty "$(cat ${container_id})" env TERM=xterm
-    printf '[defaults]\nroles_path=/etc/ansible/roles/\nlibrary=/etc/ansible/modules/' > /etc/ansible.cfg
+    printf '[defaults]\nroles_path=/etc/ansible/roles/\nlibrary=/etc/ansible/modules/' > /etc/ansible/ansible.cfg
 
   # Check ansible version
   - >
