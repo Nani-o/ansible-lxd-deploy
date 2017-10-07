@@ -9,10 +9,12 @@ services:
   - docker
 
 env:
-  - distro: ubuntu1604
+  - distro: ubuntu
+    version: 16.04
     init: /lib/systemd/systemd
     run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
-  - distro: ubuntu1404
+  - distro: ubuntu
+    version: 14.04
     init: /sbin/init
     run_opts: ""
 
@@ -23,21 +25,9 @@ addons:
     - python-pip
 
 before_install:
-  - 'docker pull geerlingguy/docker-${distro}-ansible:latest'
+  - 'docker pull ${distro}:${version}'
 
 install:
-  # Install ansible
-  - pip install ansible jmespath
-
-  # Check ansible version
-  - ansible --version
-
-  # Create ansible.cfg with correct roles_path
-  - printf '[defaults]\nroles_path=../\nlibrary=../' >ansible.cfg
-
-  - wget https://raw.githubusercontent.com/Nani-o/ansible-module-lxd_network/master/lxd_network.py
-
-script:
   # Create a random file to store the container ID.
   - container_id=$(mktemp)
 
@@ -46,7 +36,30 @@ script:
   # Run container detached, with our role mounted inside.
   - 'docker run --detach --volume="${PWD}":${role_path}:ro ${run_opts} geerlingguy/docker-${distro}-ansible:latest "${init}" > "${container_id}"'
 
+  # Install ansible
+  - >
+    docker exec --tty "$(cat ${container_id})" env TERM=xterm
+    pip install ansible jmespath
 
+  # Create ansible.cfg with correct roles_path
+  - >
+    docker exec --tty "$(cat ${container_id})" env TERM=xterm
+    printf '[defaults]\nroles_path=/etc/ansible/roles/\nlibrary=/etc/ansible/modules/' > /etc/ansible.cfg
+
+  # Check ansible version
+  - >
+    docker exec --tty "$(cat ${container_id})" env TERM=xterm
+    ansible --version
+
+  - >
+    docker exec --tty "$(cat ${container_id})" env TERM=xterm
+    mkdir /etc/ansible/modules
+
+  - >
+    docker exec --tty "$(cat ${container_id})" env TERM=xterm
+    wget https://raw.githubusercontent.com/Nani-o/ansible-module-lxd_network/master/lxd_network.py -O /etc/ansible/lxd_network.py
+
+script:
   # Basic role syntax check
   - >
     docker exec --tty "$(cat ${container_id})" env TERM=xterm
