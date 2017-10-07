@@ -18,12 +18,6 @@ env:
     init: /sbin/init
     run_opts: ""
 
-# Install ansible
-addons:
-  apt:
-    packages:
-    - python-pip
-
 before_install:
   - 'docker pull ${distro}:${version}'
 
@@ -34,7 +28,7 @@ install:
   - role_path="/etc/ansible/roles/role_under_test"
 
   # Run container detached, with our role mounted inside.
-  - 'docker run --detach --volume="${PWD}":${role_path}:ro ${run_opts} geerlingguy/docker-${distro}-ansible:latest "${init}" > "${container_id}"'
+  - 'docker run --detach --volume="${PWD}":${role_path}:ro ${run_opts} ${distro}:${version} "${init}" > "${container_id}"'
 
   # Install ansible
   - >
