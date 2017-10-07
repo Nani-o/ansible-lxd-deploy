@@ -32,17 +32,17 @@ install:
 
   # Update apt
   - >
-    docker exec --privileged --tty "$(cat ${container_id})" env TERM=xterm
+    docker exec -u 0 --tty "$(cat ${container_id})" env TERM=xterm
     apt update && apt upgrade
 
   # Install python and pip
   - >
-    docker exec --privileged --tty "$(cat ${container_id})" env TERM=xterm
+    docker exec -u 0 --tty "$(cat ${container_id})" env TERM=xterm
     apt update && apt upgrade
 
   # Install ansible
   - >
-    docker exec --privileged --tty "$(cat ${container_id})" env TERM=xterm
+    docker exec -u 0 --tty "$(cat ${container_id})" env TERM=xterm
     pip install ansible jmespath
 
   # Create ansible.cfg with correct roles_path
