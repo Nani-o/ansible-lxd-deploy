@@ -30,19 +30,19 @@ install:
   # Run container detached, with our role mounted inside.
   - 'docker run --detach --volume="${PWD}":${role_path}:ro ${run_opts} ${distro}:${version} "${init}" > "${container_id}"'
 
-  # Install python and pip
+  # Update apt
   - >
-    docker exec -u 0 --tty "$(cat ${container_id})" env TERM=xterm
+    docker exec --tty "$(cat ${container_id})" env TERM=xterm
     apt update
 
   # Install python and pip
   - >
-    docker exec -u 0 --tty "$(cat ${container_id})" env TERM=xterm
-    apt upgrade
+    docker exec --tty "$(cat ${container_id})" env TERM=xterm
+    apt install -y python python-pip
 
   # Install ansible
   - >
-    docker exec -u 0 --tty "$(cat ${container_id})" env TERM=xterm
+    docker exec --tty "$(cat ${container_id})" env TERM=xterm
     pip install ansible jmespath
 
   # Create ansible.cfg with correct roles_path
