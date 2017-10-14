@@ -11,13 +11,9 @@ env:
   - distribution: ubuntu
     distribution_version: 14
 
-addons:
-  apt:
-    packages:
-      - lxd
-      - python-pip
-
 before_install:
+  - apt install lxd -t trusty-backports
+  - apt install python-pip
   - pip install ansible jmespath
   - lxc init
 
