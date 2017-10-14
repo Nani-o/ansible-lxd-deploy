@@ -12,10 +12,10 @@ env:
     distribution_version: 14
 
 before_install:
-  - apt install lxd -t trusty-backports
-  - apt install python-pip
-  - pip install ansible jmespath
-  - lxc init
+  - sudo apt install lxd -t trusty-backports
+  - sudo apt install python-pip
+  - sudo pip install ansible jmespath
+  - sudo lxc init
 
 install:
   # Create a random file to store the container ID.
@@ -26,7 +26,7 @@ install:
   - chmod +x ${PWD}/tests/test.sh
 
   # Run tests.
-  - ${PWD}/tests/test.sh
+  - sudo ${PWD}/tests/test.sh
 
 #   # Create ansible.cfg
 #   -
