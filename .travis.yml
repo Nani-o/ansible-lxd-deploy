@@ -11,15 +11,6 @@ env:
   - distribution: ubuntu
     distribution_version: 14
 
-before_install:
-  - sudo apt install lxd -t trusty-backports
-  - sudo apt install python-pip
-  - sudo pip install ansible jmespath
-  - whoami
-  - groups
-  - lxc --version
-  - sudo adduser travis lxd
-
 install:
   # Create a random file to store the container ID.
   - container_id=$(mktemp)
