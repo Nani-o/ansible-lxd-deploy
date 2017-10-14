@@ -19,6 +19,7 @@ install:
   - wget -O ${PWD}/tests/test.sh https://gist.githubusercontent.com/Nani-o/ce936e8966a020769cf696eaa0f69a76/raw/
   - chmod +x ${PWD}/tests/test.sh
 
+script:
   # Run tests.
   - ${PWD}/tests/test.sh
 
