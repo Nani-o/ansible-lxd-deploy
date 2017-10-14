@@ -15,6 +15,9 @@ before_install:
   - sudo apt install lxd -t trusty-backports
   - sudo apt install python-pip
   - sudo pip install ansible jmespath
+  - whoami
+  - groups
+  - lxc --version
   - sudo lxc init
 
 install:
