@@ -5,93 +5,83 @@ python: "2.7"
 
 sudo: true
 
-services:
-  - docker
-
 env:
-  - distro: ubuntu
-    version: 16.04
-    init: /lib/systemd/systemd
-    run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
-  - distro: ubuntu
-    version: 14.04
-    init: /sbin/init
-    run_opts: ""
+  - distribution: ubuntu
+    distribution_version: 16
+  - distribution: ubuntu
+    distribution_version: 14
+
+addons:
+  apt:
+    packages:
+      - lxd
+      - python-pip
 
 before_install:
-  - 'docker pull ${distro}:${version}'
+  - pip install ansible jmespath
+  - lxc init
 
 install:
   # Create a random file to store the container ID.
   - container_id=$(mktemp)
 
-  - role_path="/etc/ansible/roles/role_under_test"
+  # Download test script.
+  - wget -O ${PWD}/tests/test.sh https://gist.githubusercontent.com/Nani-o/ce936e8966a020769cf696eaa0f69a76/raw/2c49b15b37e08ff2f3bb9289cfa4a78966f31908/test.sh
+  - chmod +x ${PWD}/tests/test.sh
 
-  # Run container detached, with our role mounted inside.
-  - 'docker run --detach --volume="${PWD}":${role_path}:ro ${run_opts} ${distro}:${version} "${init}" > "${container_id}"'
+  # Run tests.
+  - ${PWD}/tests/test.sh
 
-  # Update apt
-  - >
-    docker exec --tty "$(cat ${container_id})" env TERM=xterm
-    apt update
+#   # Create ansible.cfg
+#   -
 
-  # Install python and pip
-  - >
-    docker exec --tty "$(cat ${container_id})" env TERM=xterm
-    apt install -y python python-pip
+#   # Create ansible.cfg with correct roles_path
+#   - >
+#     docker exec --tty "$(cat ${container_id})" env TERM=xterm
+#     printf '[defaults]\nroles_path=/etc/ansible/roles/\nlibrary=/etc/ansible/modules/' > /etc/ansible/ansible.cfg
 
-  # Install ansible
-  - >
-    docker exec --tty "$(cat ${container_id})" env TERM=xterm
-    pip install ansible jmespath
+#   # Check ansible version
+#   - >
+#     docker exec --tty "$(cat ${container_id})" env TERM=xterm
+#     ansible --version
 
-  # Create ansible.cfg with correct roles_path
-  - >
-    docker exec --tty "$(cat ${container_id})" env TERM=xterm
-    printf '[defaults]\nroles_path=/etc/ansible/roles/\nlibrary=/etc/ansible/modules/' > /etc/ansible/ansible.cfg
+#   - >
+#     docker exec --tty "$(cat ${container_id})" env TERM=xterm
+#     mkdir /etc/ansible/modules
 
-  # Check ansible version
-  - >
-    docker exec --tty "$(cat ${container_id})" env TERM=xterm
-    ansible --version
+#   - >
+#     docker exec --tty "$(cat ${container_id})" env TERM=xterm
+#     wget https://raw.githubusercontent.com/Nani-o/ansible-module-lxd_network/master/lxd_network.py -O /etc/ansible/lxd_network.py
 
-  - >
-    docker exec --tty "$(cat ${container_id})" env TERM=xterm
-    mkdir /etc/ansible/modules
+# script:
+#   # Basic role syntax check
+#   - >
+#     docker exec --tty "$(cat ${container_id})" env TERM=xterm
+#     ansible-playbook ${role_path}/tests/test.yml -i ${role_path}/tests/inventory --syntax-check
 
-  - >
-    docker exec --tty "$(cat ${container_id})" env TERM=xterm
-    wget https://raw.githubusercontent.com/Nani-o/ansible-module-lxd_network/master/lxd_network.py -O /etc/ansible/lxd_network.py
+#   # Execution of the playbook
+#   - >
+#     docker exec --tty "$(cat ${container_id})" env TERM=xterm
+#     ansible-playbook ${role_path}/tests/test.yml -i ${role_path}/tests/inventory
 
-script:
-  # Basic role syntax check
-  - >
-    docker exec --tty "$(cat ${container_id})" env TERM=xterm
-    ansible-playbook ${role_path}/tests/test.yml -i ${role_path}/tests/inventory --syntax-check
+#   # Test role idempotency
+#   - >
+#     docker exec --tty "$(cat ${container_id})" env TERM=xterm
+#     ansible-playbook ${role_path}/tests/test.yml -i ${role_path}/tests/inventory
+#     | grep -q 'changed=0.*failed=0'
+#     && (echo 'Idempotence test: pass' && exit 0)
+#     || (echo 'Idempotence test: fail' && exit 1)
 
-  # Execution of the playbook
-  - >
-    docker exec --tty "$(cat ${container_id})" env TERM=xterm
-    ansible-playbook ${role_path}/tests/test.yml -i ${role_path}/tests/inventory
+#   # Check that we deployed a Centos 7 container named container1
+#   - >
+#     docker exec --tty "$(cat ${container_id})" env TERM=xterm
+#     sudo lxc exec container1 -- cat /etc/redhat-release | grep 'CentOS Linux release 7'
+#     && (echo 'Container creation test: pass' && exit 0)
+#     || (echo 'Container creation test: fail' && exit 1)
 
-  # Test role idempotency
-  - >
-    docker exec --tty "$(cat ${container_id})" env TERM=xterm
-    ansible-playbook ${role_path}/tests/test.yml -i ${role_path}/tests/inventory
-    | grep -q 'changed=0.*failed=0'
-    && (echo 'Idempotence test: pass' && exit 0)
-    || (echo 'Idempotence test: fail' && exit 1)
-
-  # Check that we deployed a Centos 7 container named container1
-  - >
-    docker exec --tty "$(cat ${container_id})" env TERM=xterm
-    sudo lxc exec container1 -- cat /etc/redhat-release | grep 'CentOS Linux release 7'
-    && (echo 'Container creation test: pass' && exit 0)
-    || (echo 'Container creation test: fail' && exit 1)
-
-  # Check that DHCP correctly assign the desired ip to container1
-  - >
-    docker exec --tty "$(cat ${container_id})" env TERM=xterm
-    sudo lxc exec container1 -- hostname -I | tr -d ' ' | grep -e '^1.1.1.11$' 
-    && (echo 'Container dhcp ip test: pass' && exit 0) 
-    || (echo 'Container dhcp ip test: failed' && exit 1)
+#   # Check that DHCP correctly assign the desired ip to container1
+#   - >
+#     docker exec --tty "$(cat ${container_id})" env TERM=xterm
+#     sudo lxc exec container1 -- hostname -I | tr -d ' ' | grep -e '^1.1.1.11$'
+#     && (echo 'Container dhcp ip test: pass' && exit 0)
+#     || (echo 'Container dhcp ip test: failed' && exit 1)
