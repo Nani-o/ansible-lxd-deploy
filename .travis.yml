@@ -18,7 +18,7 @@ before_install:
   - whoami
   - groups
   - lxc --version
-  - sudo adduser nani lxd
+  - sudo adduser travis lxd
 
 install:
   # Create a random file to store the container ID.
