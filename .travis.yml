@@ -18,7 +18,7 @@ before_install:
   - whoami
   - groups
   - lxc --version
-  - sudo lxc init
+  - sudo adduser nani lxd
 
 install:
   # Create a random file to store the container ID.
@@ -29,7 +29,7 @@ install:
   - chmod +x ${PWD}/tests/test.sh
 
   # Run tests.
-  - sudo ${PWD}/tests/test.sh
+  - ${PWD}/tests/test.sh
 
 #   # Create ansible.cfg
 #   -
