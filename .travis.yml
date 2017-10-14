@@ -25,7 +25,7 @@ install:
   - container_id=$(mktemp)
 
   # Download test script.
-  - wget -O ${PWD}/tests/test.sh https://gist.githubusercontent.com/Nani-o/ce936e8966a020769cf696eaa0f69a76/raw/2c49b15b37e08ff2f3bb9289cfa4a78966f31908/test.sh
+  - wget -O ${PWD}/tests/test.sh https://gist.githubusercontent.com/Nani-o/ce936e8966a020769cf696eaa0f69a76/raw/
   - chmod +x ${PWD}/tests/test.sh
 
   # Run tests.
