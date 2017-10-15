@@ -14,7 +14,12 @@
     - yum
 
 - name: Création du storage default
-  shell: "lxd init --auto"
+  shell: "echo root:1000000:65536 >> /etc/subuid"
+  changed_when: false
+  ignore_errors: true
+
+- name: Création du storage default
+  shell: "echo root:1000000:65536 >> /etc/subgid"
   changed_when: false
   ignore_errors: true
 
