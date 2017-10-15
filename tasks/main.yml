@@ -14,7 +14,7 @@
     - yum
 
 - name: Création du storage default
-  shell: "newgrp lxd"
+  shell: "lxd init --auto"
   changed_when: false
   ignore_errors: true
 
