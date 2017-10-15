@@ -6,6 +6,12 @@
         name: lxd_network.py
         path: "/etc/ansible/modules/"
   tasks:
+    - name: Create folders
+      file:
+        src: "{{ item }}"
+        state: directory
+      with_items: "{{ (git_repos | default([]) + file_downloads | default([])) | map(attribute='path') | list }}"
+
     - name: Clone/Pull of repositories
       git:
         repo: "{{ item.src }}"
@@ -21,3 +27,4 @@
         dest: "{{ item.path }}/{{ item.name }}"
       when: file_downloads is defined
       with_items: "{{ file_downloads }}"
+
