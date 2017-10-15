@@ -1,6 +1,5 @@
 ---
 - hosts: localhost
-  become: true
   vars:
     lxd_deploy_profiles:
       - name: "default"

@@ -1,2 +1,2 @@
 ---
-lxd_deploy_apt_default_release: "trusty-backports"
+lxd_deploy_apt_default_release: "trusty"
