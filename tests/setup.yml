@@ -1,7 +1,6 @@
 ---
 - hosts: localhost
   vars:
-    git_repos: [""]
     file_downloads:
       - src: https://raw.githubusercontent.com/Nani-o/ansible/lxd_network/lib/ansible/modules/cloud/lxd/lxd_network.py
         name: lxd_network.py
