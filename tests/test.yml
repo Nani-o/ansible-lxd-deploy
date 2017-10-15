@@ -17,4 +17,4 @@
           - lxc.mount.entry = /dev/net dev/net none bind,create=dir
           - lxc.cgroup.devices.allow = c 10:200 rwm
   roles:
-    - role_under_test
+    - role_to_test
