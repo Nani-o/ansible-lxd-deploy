@@ -13,10 +13,12 @@
         dest: "{{ item.path }}/{{ item.name }}"
         clone: yes
         update: yes
+      when: git_repos is defined
       with_items: "{{ git_repos }}"
 
     - name: Download files
       get_url:
         url: "{{ item.src }}"
         dest: "{{ item.path }}/{{ item.name }}"
+      when: file_downloads is defined
       with_items: "{{ file_downloads }}"
