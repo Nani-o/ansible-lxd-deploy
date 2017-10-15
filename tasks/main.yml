@@ -13,14 +13,10 @@
     - lxd-client
     - yum
 
-- name: Création des profiles
-  lxd_profile:
-    name: "{{ item.name }}"
-    state: "present"
-    config: "{{ item.config }}"
-    devices: "{{ item.devices }}"
-    description: "{{ item.description }}"
-  with_items: "{{ lxd_deploy_profiles }}"
+- name: Création du storage default
+  shell: "lxc storage create default dir source=/var/lib/lxd/storage-pools/default"
+  changed_when: false
+  ignore_errors: true
 
 - name: Création des networks
   lxd_network:
@@ -29,6 +25,15 @@
     config: "{{ item.config }}"
     description: "{{ item.description }}"
   with_items: "{{ lxd_deploy_networks }}"
+
+- name: Création des profiles
+  lxd_profile:
+    name: "{{ item.name }}"
+    state: "present"
+    config: "{{ item.config }}"
+    devices: "{{ item.devices }}"
+    description: "{{ item.description }}"
+  with_items: "{{ lxd_deploy_profiles }}"
 
 - name: Création des containers
   lxd_container:
