@@ -24,7 +24,7 @@
   ignore_errors: true
 
 - name: service
-  systemctl:
+  systemd:
     name: "{{ item }}"
     state: restarted
   with_items:
