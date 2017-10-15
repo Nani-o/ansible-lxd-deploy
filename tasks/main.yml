@@ -23,6 +23,15 @@
   changed_when: false
   ignore_errors: true
 
+- name: service
+  systemctl:
+    name: "{{ item }}"
+    state: restarted
+  with_items:
+    - lxd.service
+    - lxd-containers.service
+    - lxd.socket
+
 - name: Création du storage default
   shell: "lxc storage create default dir source=/var/lib/lxd/storage-pools/default"
   changed_when: false
