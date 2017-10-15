@@ -23,6 +23,9 @@
   changed_when: false
   ignore_errors: true
 
+- name: init
+  shell: "lxd init --auto"
+
 - name: service
   systemd:
     name: "{{ item }}"
