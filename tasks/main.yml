@@ -40,6 +40,9 @@
     description: "{{ item.description }}"
   with_items: "{{ lxd_deploy_profiles }}"
 
+- name: test
+  shell: "lxc launch ubuntu:16.04"
+
 - name: Création des containers
   lxd_container:
     name: "{{ item.name }}"
