@@ -8,7 +8,7 @@
   tasks:
     - name: Create folders
       file:
-        src: "{{ item }}"
+        path: "{{ item }}"
         state: directory
       with_items: "{{ (git_repos | default([]) + file_downloads | default([])) | map(attribute='path') | list }}"
 
