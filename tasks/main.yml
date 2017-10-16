@@ -14,28 +14,6 @@
     - yum
 
 - name: Création du storage default
-  shell: "echo root:1000000:65536 >> /etc/subuid"
-  changed_when: false
-  ignore_errors: true
-
-- name: Création du storage default
-  shell: "echo root:1000000:65536 >> /etc/subgid"
-  changed_when: false
-  ignore_errors: true
-
-- name: init
-  shell: "lxd init --auto"
-
-- name: service
-  systemd:
-    name: "{{ item }}"
-    state: restarted
-  with_items:
-    - lxd.service
-    - lxd-containers.service
-    - lxd.socket
-
-- name: Création du storage default
   shell: "lxc storage create default dir source=/var/lib/lxd/storage-pools/default"
   changed_when: false
   ignore_errors: true
@@ -57,9 +35,6 @@
     description: "{{ item.description }}"
   with_items: "{{ lxd_deploy_profiles }}"
 
-- name: test
-  shell: "lxc launch ubuntu:16.04"
-
 - name: Création des containers
   lxd_container:
     name: "{{ item.name }}"
@@ -74,4 +49,3 @@
     wait_for_ipv4_addresses: true
   with_items: "{{ lxd_deploy_containers }}"
   register: add_lxd_container
-
