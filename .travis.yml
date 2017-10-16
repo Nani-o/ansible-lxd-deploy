@@ -23,7 +23,6 @@ script:
   # Run tests.
   - ${PWD}/tests/test.sh
 
-  - sudo -E su $USER -c "lxc exec c1 -- lxc launch ubuntu:16.04"
 #   # Create ansible.cfg
 #   -
 
