@@ -1,15 +1,13 @@
 ---
 - block:
-    - name: Vérification de la présence du repo
-      apt_repository:
-        repo: "deb http://archive.ubuntu.com/ubuntu {{ lxd_apt_release }} main restricted universe multiverse"
-        state: present
-
-    - name: Installation des packages lxd
+    - name: Check snapd is installed
       apt:
-        name: "{{ item }}"
+        name: snapd
         state: latest
-        default_release: "{{ lxd_apt_release }}"
         update_cache: yes
-      with_items: "{{ lxd_apt_packages }}"
+
+    - name: Install lxd
+      shell: snap install lxd
+      register: lxd_snap_install
+      changed_when: 'is already installed' not in lxd_snap_install.stdout
   tags: lxd_install

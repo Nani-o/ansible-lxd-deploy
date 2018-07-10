@@ -13,6 +13,7 @@
         profiles: "{{ item.profiles | default({}) }}"
         devices: "{{ item.devices | default({}) }}"
         wait_for_ipv4_addresses: true
+        url: "{{ lxd_url }}"
       with_items: "{{ lxd_containers }}"
       when: "lxd_containers is defined"
 

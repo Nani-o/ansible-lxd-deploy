@@ -1,4 +1,6 @@
 ---
+lxd_url: "unix:/var/snap/lxd/common/lxd/unix.socket"
+
 # Feature defaults
 lxd_networks:
   - name: lxdbr0

@@ -20,6 +20,7 @@
         config: "{{ item.config }}"
         devices: "{{ item.devices }}"
         description: "{{ item.description }}"
+        url: "{{ lxd_url }}"
       with_items: "{{ lxd_profiles }}"
       when: "lxd_profiles is defined"
   tags: lxd_config
