@@ -10,7 +10,7 @@
         var: lxd_version_result.stdout
 
     - name: status
-      shell: systemctl status snap.lxd.daemon
+      shell: stat /var/snap/lxd/common/lxd/unix.socket
       register: sh
 
     - name: debug
