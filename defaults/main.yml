@@ -1,5 +1,6 @@
 ---
 lxd_url: "unix:/var/snap/lxd/common/lxd/unix.socket"
+lxd_bin_folder: "/snap/bin"
 
 # Feature defaults
 lxd_networks:

@@ -1,7 +1,7 @@
 ---
 - block:
     - name: Execute lxd init (LTS)
-      command: "lxd init --auto"
+      command: "{{ lxd_bin_folder }}/lxd init --auto"
       register: lxd_init_result
       changed_when: false
       failed_when:
