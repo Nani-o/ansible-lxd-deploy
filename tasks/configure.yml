@@ -18,7 +18,7 @@
         var: sh
 
     - name: status
-      shell: sleep 30
+      shell: find /var/snap/lxd/common/lxd/
 
     - name: Configuration for Feature version
       include_tasks: configure-feature.yml
