@@ -1,7 +1,7 @@
 ---
 - block:
     - name: Get lxd version
-      shell: "lxd --version"
+      shell: "/snap/bin/lxd --version"
       register: lxd_version_result
       changed_when: false
 
