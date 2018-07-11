@@ -10,15 +10,8 @@
         var: lxd_version_result.stdout
 
     - name: status
-      shell: stat /var/snap/lxd/common/lxd/unix.socket
+      shell: find /var/snap/lxd
       register: sh
-
-    - name: debug
-      debug:
-        var: sh
-
-    - name: status
-      shell: find /var/snap/lxd/common/lxd/
 
     - name: Configuration for Feature version
       include_tasks: configure-feature.yml
