@@ -13,6 +13,10 @@
       shell: find /var/snap/lxd
       register: sh
 
+    - name: debug
+      debug:
+        var: sh
+
     - name: Configuration for Feature version
       include_tasks: configure-feature.yml
       when: "lxd_version_result.stdout | version_compare('2.20', '>=')"
