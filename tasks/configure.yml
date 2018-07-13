@@ -10,6 +10,14 @@
         var: lxd_version_result.stdout
 
     - name: status
+      shell: systemctl status '*lxd'
+      register: sh
+
+    - name: debug
+      debug:
+        var: sh
+
+    - name: status
       shell: find /var/snap/lxd
       register: sh
 
