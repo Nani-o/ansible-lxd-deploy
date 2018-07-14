@@ -25,6 +25,12 @@
       debug:
         var: sh
 
+    - name: Wait for socket file
+      wait_for:
+        path: /var/snap/lxd/common/lxd/unix.socket
+        state: present
+        timeout: 180
+
     - name: Configuration for Feature version
       include_tasks: configure-feature.yml
       when: "lxd_version_result.stdout | version_compare('2.20', '>=')"
