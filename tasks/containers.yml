@@ -1,5 +1,10 @@
 ---
 - block:
+    - name: restart debug
+      systemd:
+        name: snap.lxd
+        state: restarted
+
     - name: Create containers
       lxd_container:
         name: "{{ item.name }}"
