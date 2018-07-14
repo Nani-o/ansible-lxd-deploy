@@ -23,5 +23,5 @@
     - name: Install lxd via snap
       shell: snap install lxd --channel=stable
       register: lxd_snap_install
-      changed_when: "'is already installed' not in lxd_snap_install.stdout"
+      changed_when: "'is already installed' not in lxd_snap_install.stderr"
   tags: lxd_install
