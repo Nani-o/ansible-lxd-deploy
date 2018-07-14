@@ -7,9 +7,9 @@ sudo: true
 
 env:
   - distribution: ubuntu
-    distribution_version: 16
+    distribution_version: 18
   - distribution: ubuntu
-    distribution_version: 14
+    distribution_version: 16
 
 before_install:
   - sudo apt-get -qq update
