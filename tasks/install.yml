@@ -1,10 +1,24 @@
 ---
 - block:
-    - name: Check snapd is installed
+    - name: Remove lxd package install
+      apt:
+        name:
+          - lxd
+          - lxd-client
+        state: absent
+        update_cache: yes
+
+    - name: Make sure snapd is installed
       apt:
         name: snapd
         state: latest
         update_cache: yes
+
+    - name: Make sure snapd is running
+      service:
+        name: snapd
+        state: started
+        enabled: yes
 
     - name: Install lxd via snap
       shell: snap install lxd --channel=stable
