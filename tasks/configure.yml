@@ -5,26 +5,6 @@
       register: lxd_version_result
       changed_when: false
 
-    - name: Debug
-      debug:
-        var: lxd_version_result.stdout
-
-    - name: status
-      shell: systemctl status '*lxd'
-      register: sh
-
-    - name: debug
-      debug:
-        var: sh
-
-    - name: status
-      shell: find /var/snap/lxd
-      register: sh
-
-    - name: debug
-      debug:
-        var: sh
-
     - name: Wait for socket file
       wait_for:
         path: /var/snap/lxd/common/lxd/unix.socket
