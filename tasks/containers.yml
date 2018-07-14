@@ -2,7 +2,7 @@
 - block:
     - name: restart debug
       systemd:
-        name: snap.lxd
+        name: snap.lxd.daemon
         state: restarted
 
     - name: Create containers
