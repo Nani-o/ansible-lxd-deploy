@@ -1,5 +1,0 @@
----
-__lxd_root_device:
-  path: "/"
-  type: "disk"
-

@@ -1,12 +1,5 @@
 ---
 - block:
-    - name: Include OS-specific vars
-      include_vars: "{{ ansible_distribution }}{{ ansible_distribution_major_version }}.yml"
-      tags:
-        - lxd_install
-        - lxd_config
-        - lxd_deploy
-
     - name: Install LXD
       include_tasks: "install.yml"
       tags: lxd_install
