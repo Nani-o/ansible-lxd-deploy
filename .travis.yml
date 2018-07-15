@@ -6,16 +6,21 @@ python: "2.7"
 sudo: true
 
 env:
-  - distribution: ubuntu
-    distribution_version: 18
-  - distribution: ubuntu
-    distribution_version: 18
-    lxd_version: 2.0
-  - distribution: ubuntu
-    distribution_version: 16
-  - distribution: ubuntu
-    distribution_version: 16
-    lxd_version: 2.0
+  global:
+    - distribution: ubuntu
+  matrix:
+    - distribution_version: 18
+      lxd_snap_channel: stable
+    - distribution_version: 18
+      lxd_snap_channel: 3.0/stable
+    - distribution_version: 18
+      lxd_snap_channel: 2.0/stable
+    - distribution_version: 16
+      lxd_snap_channel: stable
+    - distribution_version: 16
+      lxd_snap_channel: 3.0/stable
+    - distribution_version: 16
+      lxd_snap_channel: 2.0/stable
 
 before_install:
   - sudo apt-get -qq update
