@@ -15,7 +15,7 @@
         update_cache: yes
 
     - name: Install lxd via snap
-      shell: snap install lxd --channel=stable
+      shell: "snap install lxd --channel={{ lxd_snap_channel }}"
       register: lxd_snap_install
       changed_when: "'is already installed' not in lxd_snap_install.stderr"
   tags: lxd_install
