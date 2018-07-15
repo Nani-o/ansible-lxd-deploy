@@ -1,7 +1,7 @@
 ---
 lxd_url: "unix:/var/snap/lxd/common/lxd/unix.socket"
 lxd_bin_folder: "/snap/bin"
-lxd_snap_channel_version: None
+lxd_snap_channel_version: "{{ None }}"
 lxd_snap_channel_branch: stable
 lxd_snap_channel: "{{ [lxd_snap_channel_version, lxd_snap_channel_branch] | reject('none') | join('/') }}"
 
