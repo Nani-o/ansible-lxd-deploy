@@ -1,9 +1,9 @@
 ---
 - block:
-# ToDo : Change version checking
-    - name: temp
-      set_fact:
-        lxd_temp_version: 3.0.1
+    - name: Get lxd version
+      shell: "{{ lxd_bin_folder }}/lxd --version"
+      register: lxd_version_result
+      changed_when: false
 
     - name: Wait for socket file
       wait_for:
@@ -13,11 +13,11 @@
 
     - name: Configuration for Feature version
       include_tasks: configure-feature.yml
-      when: "lxd_temp_version | version_compare('2.20', '>=')"
+      when: "lxd_version_result.stdout | version_compare('2.20', '>=')"
 
     - name: Configuration for LTS version
       include_tasks: configure-lts.yml
-      when: "lxd_temp_version | version_compare('2.20', '<=')"
+      when: "lxd_version_result.stdout | version_compare('2.20', '<=')"
 
     - name: Create LXD profiles
       lxd_profile:
