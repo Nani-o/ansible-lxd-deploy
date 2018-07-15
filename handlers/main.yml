@@ -1,5 +1,5 @@
 ---
 - name: restart lxd
   service:
-    name: lxd
+    name: snap.lxd.daemon
     state: restarted
