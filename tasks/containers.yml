@@ -46,6 +46,4 @@
       register: python_install
       changed_when: "'OK' not in python_install.stdout"
       become: false
-      environment:
-        PATH: "/snap/bin:$PATH"
   tags: lxd_deploy
