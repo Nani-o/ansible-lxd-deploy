@@ -10,3 +10,4 @@
         - "{{ lxd_snap_channel | regex_replace('/.*', '') }}.yml"
   roles:
     - role_to_test
+...

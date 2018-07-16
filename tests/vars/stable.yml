@@ -25,3 +25,4 @@ lxd_networks:
       ipv4.address: "1.1.1.1/24"
       ipv4.nat: "true"
       ipv6.address: "none"
+...

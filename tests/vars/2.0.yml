@@ -24,3 +24,4 @@ lxd_bridge:
   ipv6:
     address: "fd26:9b5f:cdb1:7756::1/64"
     nat: "true"
+...

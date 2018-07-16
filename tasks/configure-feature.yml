@@ -18,3 +18,4 @@
       with_items: "{{ lxd_networks }}"
       when: "lxd_networks is defined"
   tags: lxd_config
+...

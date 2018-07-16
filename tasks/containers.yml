@@ -47,3 +47,4 @@
       changed_when: "'OK' not in python_install.stdout"
       become: false
   tags: lxd_deploy
+...

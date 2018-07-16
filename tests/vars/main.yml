@@ -40,3 +40,4 @@ lxd_containers:
       profiles:
         - "default"
         - "privileged"
+...

@@ -44,4 +44,3 @@ lxd_profiles:
         type: "nic"
       root: "{{ __lxd_root_device }}"
 ...
-

@@ -7,3 +7,4 @@
 - name: wait for socket
   wait_for:
     path: /var/snap/lxd/common/lxd/unix.socket
+...

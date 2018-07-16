@@ -19,3 +19,4 @@
       register: lxd_snap_install
       changed_when: "'is already installed' not in lxd_snap_install.stderr"
   tags: lxd_install
+...
