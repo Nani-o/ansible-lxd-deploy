@@ -23,8 +23,8 @@
       lxd_profile:
         name: "{{ item.name }}"
         state: "present"
-        config: "{{ item.config | default(None) }}"
-        devices: "{{ item.devices | default(None) }}"
+        config: "{{ item.config }}"
+        devices: "{{ item.devices }}"
         description: "{{ item.description }}"
         url: "{{ lxd_url }}"
       with_items: "{{ lxd_profiles }}"
