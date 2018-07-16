@@ -12,7 +12,9 @@
       template:
         src: lxd-bridge.j2
         dest: /etc/default/lxd-bridge
-      notify: restart lxd
+      notify:
+        - restart lxd
+        - wait for socket
 
     - name: Flush des handlers
       meta: flush_handlers

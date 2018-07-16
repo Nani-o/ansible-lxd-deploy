@@ -3,3 +3,7 @@
   service:
     name: snap.lxd.daemon
     state: restarted
+
+- name: wait for lxd
+  wait_for:
+    path: "{{ lxd_url}}"
