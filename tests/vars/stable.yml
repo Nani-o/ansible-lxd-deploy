@@ -8,7 +8,6 @@ lxd_profiles:
       user.network_mode: ""
   - name: "default"
     description: "Default LXD profile"
-    config: {}
     devices:
       eth0:
         nictype: "bridged"
