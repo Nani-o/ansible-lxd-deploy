@@ -11,7 +11,7 @@
     - name: Copy lxd-bridge network configuration (LTS)
       template:
         src: lxd-bridge.j2
-        dest: /etc/default/lxd-bridge
+        dest: /var/snap/lxd/common/lxd-bridge/config
       notify:
         - restart lxd
         - wait for socket
