@@ -14,6 +14,7 @@ lxd_profiles:
         type: "nic"
       root:
         path: "/"
+        pool: "default"
         type: "disk"
 
   - name: "default"
@@ -28,6 +29,7 @@ lxd_profiles:
         type: "nic"
       root:
         path: "/"
+        pool: "default"
         type: "disk"
 
 lxd_bridge:
