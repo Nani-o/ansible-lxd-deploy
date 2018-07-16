@@ -6,7 +6,7 @@ lxd_snap_channel_branch: stable
 lxd_snap_channel: "{{ [lxd_snap_channel_version, lxd_snap_channel_branch] | reject('none') | join('/') }}"
 
 __lxd_root_device: |
-                "{% if lxd_snap_channel_version == '2.0' %}
+                "{% if '2.0' in lxd_snap_channel %}
                   path: "/"
                   type: "disk"
                 {% else %}
