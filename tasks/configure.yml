@@ -19,18 +19,14 @@
       include_tasks: configure-lts.yml
       when: "lxd_version_result.stdout | version_compare('2.20', '<=')"
 
-    - name: set_fact
-      set_fact:
-        lxd_profile_template:
-#          name: "{{ item.name }}"
-          state: "present"
-#          config: "{{ item.config }}"
-#          devices: "{{ item.devices }}"
-#          description: "{{ item.description }}"
-          url: "{{ lxd_url }}"
-
     - name: Create LXD profiles
-      lxd_profile: "{{ item | combine(lxd_profile_template) }}"
+      lxd_profile:
+          name: "{{ item.name }}"
+          state: "present"
+          config: "{{ item.config | default({}) }}"
+          devices: "{{ item.devices | default({}) }}"
+          description: "{{ item.description }}"
+          url: "{{ lxd_url }}"
       with_items: "{{ lxd_profiles }}"
       when: "lxd_profiles is defined"
   tags: lxd_config
