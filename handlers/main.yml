@@ -6,4 +6,4 @@
 
 - name: wait for socket
   wait_for:
-    path: "{{ lxd_url}}"
+    path: /var/snap/lxd/common/lxd/unix.socket
