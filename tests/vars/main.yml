@@ -8,27 +8,34 @@ lxd_containers:
       alias: "centos/7/amd64"
       profiles:
         - "default"
+        - "privileged"
     - name: "u14"
       alias: "ubuntu/14.04/amd64"
       profiles:
         - "default"
+        - "privileged"
     - name: "u16"
       alias: "ubuntu/16.04/amd64"
       profiles:
         - "default"
+        - "privileged"
     - name: "u18"
       alias: "ubuntu/18.04/amd64"
       profiles:
         - "default"
+        - "privileged"
     - name: "d7"
       alias: "debian/7/amd64"
       profiles:
         - "default"
+        - "privileged"
     - name: "d8"
       alias: "debian/8/amd64"
       profiles:
         - "default"
+        - "privileged"
     - name: "d9"
       alias: "debian/9/amd64"
       profiles:
         - "default"
+        - "privileged"
