@@ -4,6 +4,7 @@ lxd_containers:
       alias: "centos/6/amd64"
       profiles:
         - "default"
+        - "privileged"
     - name: "c7"
       alias: "centos/7/amd64"
       profiles:
