@@ -7,17 +7,17 @@
 
     - name: Wait for socket file
       wait_for:
-        path: /var/snap/lxd/common/lxd/unix.socket
+        path: "{{ lxd_socket_path }}"
         state: present
         timeout: 180
 
-    - name: Configuration for Feature version
-      include_tasks: configure-feature.yml
-      when: "lxd_version_result.stdout | version_compare('2.20', '>=')"
+    - name: Configuration for version 2.20 or above
+      include_tasks: configure-latest.yml
+      when: "lxd_version_result.stdout is version_compare('2.20', '>=')"
 
-    - name: Configuration for LTS version
-      include_tasks: configure-lts.yml
-      when: "lxd_version_result.stdout | version_compare('2.20', '<=')"
+    - name: Configuration for version before 2.20
+      include_tasks: configure-old.yml
+      when: "lxd_version_result.stdout is version_compare('2.20', '<=')"
 
     - name: Create LXD profiles
       lxd_profile:

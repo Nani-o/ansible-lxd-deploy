@@ -1,5 +1,6 @@
 ---
-lxd_url: "unix:/var/snap/lxd/common/lxd/unix.socket"
+lxd_socket_path: /var/snap/lxd/common/lxd/unix.socket
+lxd_url: "unix:{{ lxd_socket_path }}"
 lxd_bin_folder: "/snap/bin"
 lxd_snap_channel_version: 
 lxd_snap_channel_branch: stable
