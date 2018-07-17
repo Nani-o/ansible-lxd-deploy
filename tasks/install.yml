@@ -1,22 +1,20 @@
 ---
-- block:
-    - name: Remove lxd package install
-      apt:
-        name:
-          - lxd
-          - lxd-client
-        state: absent
-        update_cache: yes
+- name: Remove lxd package install
+  apt:
+    name:
+      - lxd
+      - lxd-client
+    state: absent
+    update_cache: yes
 
-    - name: Make sure snapd is installed
-      apt:
-        name: snapd
-        state: latest
-        update_cache: yes
+- name: Make sure snapd is installed
+  apt:
+    name: snapd
+    state: latest
+    update_cache: yes
 
-    - name: Install lxd via snap
-      shell: "snap install lxd --channel={{ lxd_snap_channel }}"
-      register: lxd_snap_install
-      changed_when: "'is already installed' not in lxd_snap_install.stderr"
-  tags: lxd_install
+- name: Install lxd via snap
+  shell: "snap install lxd --channel={{ lxd_snap_channel }}"
+  register: lxd_snap_install
+  changed_when: "'is already installed' not in lxd_snap_install.stderr"
 ...
