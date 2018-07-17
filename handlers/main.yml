@@ -1,10 +1,17 @@
 ---
+- name: start lxd
+  service:
+    name: "{{ lxd_service_name }}"
+    state: started
+    enabled: yes
+
 - name: restart lxd
   service:
-    name: snap.lxd.daemon
+    name: "{{ lxd_service_name }}"
     state: restarted
 
 - name: wait for socket
   wait_for:
-    path: /var/snap/lxd/common/lxd/unix.socket
+    path: "{{ lxd_socket_path }}"
+    timeout: 60
 ...

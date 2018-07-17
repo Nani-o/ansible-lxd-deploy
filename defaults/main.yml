@@ -1,11 +1,33 @@
 ---
+# Defining paths for socket and binaries
 lxd_socket_path: /var/snap/lxd/common/lxd/unix.socket
 lxd_url: "unix:{{ lxd_socket_path }}"
 lxd_bin_folder: "/snap/bin"
+lxd_service_name: snap.lxd.daemon
+
+# This sets stable as default lxd_snap_channel
+# It also enable the use of subvars version and branch for no apparent reason other than I wanted to try it :)
 lxd_snap_channel_version: 
 lxd_snap_channel_branch: stable
 lxd_snap_channel: "{{ [lxd_snap_channel_version, lxd_snap_channel_branch] | reject('none') | join('/') }}"
 
+# Defining a default network lxdbr0
+lxd_networks:
+  - name: lxdbr0
+    description: "Default lxd network"
+    config:
+      ipv4.address: "192.168.56.1/24"
+      ipv4.nat: "true"
+      ipv6.address: "none"
+
+# Same as above but using lxd-bridge for version before 2.20
+lxd_bridge:
+  ipv4:
+    address: "192.168.56.1/24"
+    nat: "true"
+
+# For the default profile we need to have two versions since disk device
+# have a new key pool in version 2.20 and above
 __lxd_root_device: |
                 "{% if '2.0' in lxd_snap_channel %}
                   path: "/"
@@ -16,22 +38,7 @@ __lxd_root_device: |
                   type: "disk"
                 {% endif %}"
 
-# Feature defaults
-lxd_networks:
-  - name: lxdbr0
-    description: "Default lxd network"
-    config:
-      ipv4.address: "192.168.56.1/24"
-      ipv4.nat: "true"
-      ipv6.address: "none"
-
-# LTS defaults
-lxd_bridge:
-  ipv4:
-    address: "192.168.56.1/24"
-    nat: "true"
-
-# Common defaults
+# Defining a default profile
 lxd_profiles:
   - name: "default"
     description: "Default lxd profile"

@@ -15,6 +15,6 @@
     - restart lxd
     - wait for socket
 
-- name: Flush des handlers
+- name: Flush handlers for lxd-bridge settings
   meta: flush_handlers
 ...
