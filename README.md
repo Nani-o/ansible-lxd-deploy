@@ -123,10 +123,10 @@ Here the tags that you can use to control the execution of this role :
 It will remove any package installation of LXD, and install LXD alongside with snapd if it isn't already installed.
 
 ```
-    tasks:
-      lxd : Remove lxd package install  TAGS: [lxd, lxd_install]
-      lxd : Make sure snapd is installed        TAGS: [lxd, lxd_install]
-      lxd : Install lxd via snap        TAGS: [lxd, lxd_install]
+tasks:
+  lxd : Remove lxd package install  TAGS: [lxd, lxd_install]
+  lxd : Make sure snapd is installed        TAGS: [lxd, lxd_install]
+  lxd : Install lxd via snap        TAGS: [lxd, lxd_install]
 ```
 
 ###### lxd_config
@@ -134,12 +134,12 @@ It will remove any package installation of LXD, and install LXD alongside with s
 It will configure different aspects of LXD (profiles, networks and storages) with some differences according to the LXD version.
 
 ```
-    tasks:
-      lxd : Get lxd version     TAGS: [lxd, lxd_config]
-      lxd : Wait for socket file        TAGS: [lxd, lxd_config]
-      lxd : Configuration for version 2.20 or above     TAGS: [lxd, lxd_config]
-      lxd : Configuration for version before 2.20       TAGS: [lxd, lxd_config]
-      lxd : Create LXD profiles TAGS: [lxd, lxd_config]
+tasks:
+  lxd : Get lxd version     TAGS: [lxd, lxd_config]
+  lxd : Wait for socket file        TAGS: [lxd, lxd_config]
+  lxd : Configuration for version 2.20 or above     TAGS: [lxd, lxd_config]
+  lxd : Configuration for version before 2.20       TAGS: [lxd, lxd_config]
+  lxd : Create LXD profiles TAGS: [lxd, lxd_config]
 ```
 
 ###### lxd_deploy
@@ -147,10 +147,10 @@ It will configure different aspects of LXD (profiles, networks and storages) wit
 It will deploy LXD containers and check that python and some obvious packages are installed.
 
 ```
-    tasks:
-      lxd : Create containers   TAGS: [lxd, lxd_deploy]
-      lxd : Add containers to dynamic inventory TAGS: [lxd, lxd_deploy]
-      lxd : Installing python if absent TAGS: [lxd, lxd_deploy]
+tasks:
+  lxd : Create containers   TAGS: [lxd, lxd_deploy]
+  lxd : Add containers to dynamic inventory TAGS: [lxd, lxd_deploy]
+  lxd : Installing python if absent TAGS: [lxd, lxd_deploy]
 ```
 
 Example Playbook
