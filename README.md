@@ -5,15 +5,15 @@ lxd
 
 This role aims to manage [LXD](https://linuxcontainers.org/lxd/), a daemon wrapping LXC with a REST API for managing vm like containers.
 
-Using it you can **installs** and **configure** LXD and **deploys** containers.
+Using it you can **installs** and **configure** LXD. You can also **deploys** containers with a python post install to enable ansible.
 
 As of now there is 3 snap channels for installing LXD : 
 
-channel | version |
-------- | ------- |
-default | 3.2     |
-3.0     | 3.0.1   |
-2.0     | 2.0.11  |
+snap channel | LXD version |
+------------ | ----------- |
+default      | 3.2         |
+3.0          | 3.0.1       |
+2.0          | 2.0.11      |
 
 This role is tested against the stable branch of each of this channels.
 
@@ -33,7 +33,9 @@ Here the variables for using this role, there is some other variables that you c
 
 ###### lxd_snap_channel
 
-By default this variable is set to stable to installs the latest LXD release.
+This variable controls the channels used for installing LXD.
+
+By default this variable is set to stable to installs the latest stable LXD release from the default channel.
 
 ```YAML
 lxd_snap_channel: 2.0/edge
@@ -41,7 +43,8 @@ lxd_snap_channel: 2.0/edge
 
 ###### lxd_profiles
 
-This is a list of LXD [profiles](https://lxd.readthedocs.io/en/latest/profiles/) that you want to setup. It uses the ansible [module](https://docs.ansible.com/ansible/devel/modules/lxd_profile_module.html) for this purpose.
+This is a list of LXD [profiles](https://lxd.readthedocs.io/en/latest/profiles/) that you want to setup. It uses the ansible [lxd_profile](https://docs.ansible.com/ansible/devel/modules/lxd_profile_module.html) module for installing them.
+
 By default this var will contains a default profile that use the default storage and the lxdbr0 bridge.
 
 ```YAML
@@ -73,6 +76,7 @@ For now a default storage pool is created in **/var/snap/lxd/common/lxd/storage-
 **This only works for LXD > 2.20**
 
 This is a list of LXD [networks](https://lxd.readthedocs.io/en/latest/networks/) bridges managed by LXD you want to create. Since there is no module for this, I adapted the existing lxd_profile module that I named ... [lxd_network](./library/lxd_network.py). It is included in this role, waiting for the [PR](https://github.com/ansible/ansible/pull/31428) to gain some visibility (and me taking some time to work on it).
+
 By default this variable contains a single default lxdbr0 bridge with ipv4 and nat support.
 
 ```YAML
@@ -89,7 +93,8 @@ lxd_networks:
 
 **This only works for LXD < 2.2**
 
-Before introducing networks objects in LXD, there was a service called lxd-bridge in charge of managing a single bridge using a configuration [file](./templates/lxd-bridge.j2). Use this variable to customize it :
+Before introducing networks objects in LXD, there was a service called lxd-bridge in charge of managing a single bridge using a configuration [file](./templates/lxd-bridge.j2). This variable allows to template the configuration file for enabling the lxd-bridge service.
+
 By default it will create an lxdbr0 bridge with ipv4 and nat support.
 
 ```YAML
