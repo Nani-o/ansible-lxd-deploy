@@ -7,6 +7,8 @@ This role aims to manage [LXD](https://linuxcontainers.org/lxd/), a daemon wrapp
 
 Using it you can **installs** and **configure** LXD. You can also **deploys** containers with a python post install to enable ansible.
 
+This role use snap for installing LXD, **it will remove** any **package manager installation** of LXD in order for the LXD connection plugin to works. 
+
 As of now there is 3 snap channels for installing LXD : 
 
 snap channel | LXD version |
@@ -110,6 +112,46 @@ lxd_bridge:
 ###### lxd_containers
 
 # ToDo
+
+Tags
+----
+
+Here the tags that you can use to control the execution of this role :
+
+###### lxd_install
+
+It will remove any package installation of LXD, and install LXD alongside with snapd if it isn't already installed.
+
+```
+    tasks:
+      lxd : Remove lxd package install  TAGS: [lxd, lxd_install]
+      lxd : Make sure snapd is installed        TAGS: [lxd, lxd_install]
+      lxd : Install lxd via snap        TAGS: [lxd, lxd_install]
+```
+
+###### lxd_config
+
+It will configure different aspects of LXD (profiles, networks and storages) with some differences according to the LXD version.
+
+```
+    tasks:
+      lxd : Get lxd version     TAGS: [lxd, lxd_config]
+      lxd : Wait for socket file        TAGS: [lxd, lxd_config]
+      lxd : Configuration for version 2.20 or above     TAGS: [lxd, lxd_config]
+      lxd : Configuration for version before 2.20       TAGS: [lxd, lxd_config]
+      lxd : Create LXD profiles TAGS: [lxd, lxd_config]
+```
+
+###### lxd_deploy
+
+It will deploy LXD containers and check that python and some obvious packages are installed.
+
+```
+    tasks:
+      lxd : Create containers   TAGS: [lxd, lxd_deploy]
+      lxd : Add containers to dynamic inventory TAGS: [lxd, lxd_deploy]
+      lxd : Installing python if absent TAGS: [lxd, lxd_deploy]
+```
 
 Example Playbook
 ----------------
