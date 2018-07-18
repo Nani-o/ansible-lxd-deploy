@@ -91,7 +91,7 @@ lxd_networks:
 
 ###### lxd_bridge
 
-**This only works for LXD < 2.2**
+**This only works for LXD < 2.20**
 
 Before introducing networks objects in LXD, there was a service called lxd-bridge in charge of managing a single bridge using a configuration [file](./templates/lxd-bridge.j2). This variable allows to template the configuration file for enabling the lxd-bridge service.
 
