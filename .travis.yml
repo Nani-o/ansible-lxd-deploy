@@ -8,13 +8,19 @@ sudo: true
 env:
   global:
     - distribution: ubuntu
-      distribution_version: 18
-    - distribution: ubuntu
-      distribution_version: 16
   matrix:
-    - lxd_snap_channel: stable
-    - lxd_snap_channel: 3.0/stable
-    - lxd_snap_channel: 2.0/stable
+    - distribution_version: 18
+      lxd_snap_channel: stable
+    - distribution_version: 18
+      lxd_snap_channel: 3.0/stable
+    - distribution_version: 18
+      lxd_snap_channel: 2.0/stable
+    - distribution_version: 16
+      lxd_snap_channel: stable
+    - distribution_version: 16
+      lxd_snap_channel: 3.0/stable
+    - distribution_version: 16
+      lxd_snap_channel: 2.0/stable
 
 before_install:
   - sudo apt-get -qq update
