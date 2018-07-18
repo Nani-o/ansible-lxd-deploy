@@ -1,23 +1,115 @@
 [![Build Status](https://travis-ci.org/Nani-o/ansible-role-lxd.svg?branch=master)](https://travis-ci.org/Nani-o/ansible-role-lxd)
 
-lxd-deploy
-==========
+lxd
+===
 
-A role for managing my lxc containers.
+This role aims to manage [LXD](https://linuxcontainers.org/lxd/), a daemon wrapping LXC with a REST API for managing vm like containers.
 
-Requirements
-------------
+Using it you can **installs** and **configure** LXD and **deploys** containers.
 
-  - Ubuntu
+As of now there is 3 snap channels for installing LXD : 
+
+channel | version |
+------- | ------- |
+default | 3.2     |
+3.0     | 3.0.1   |
+2.0     | 2.0.11  |
+
+This role is tested against the stable branch of each of this channels.
+
+Compatibility
+-------------
+
+This role should works on any platform where snap is available. Tests case will be added for other distros, for now :
+
+  - Ubuntu 14.04 (not tested, can't run snap in trusty lxd containers)
+  - Ubuntu 16.04
+  - Ubuntu 18.04
 
 Role Variables
 --------------
 
-Variables
+Here the variables for using this role, there is some other variables that you can find in the [defaults/main.yml](./defaults/main.yml), but you should not need them.
+
+###### lxd_snap_channel
+
+By default this variable is set to stable to installs the latest LXD release.
+
+```YAML
+lxd_snap_channel: 2.0/edge
+```
+
+###### lxd_profiles
+
+This is a list of LXD [profiles](https://lxd.readthedocs.io/en/latest/profiles/) that you want to setup. It uses the ansible [module](https://docs.ansible.com/ansible/devel/modules/lxd_profile_module.html) for this purpose.
+By default this var will contains a default profile that use the default storage and the lxdbr0 bridge.
+
+```YAML
+lxd_profiles:
+  - name: "default"
+    description: "Default lxd profile"
+    config:
+      environment.http_proxy: ""
+      user.network_mode: ""
+    devices:
+      eth0:
+        nictype: "bridged"
+        parent: "lxdbr0"
+        type: "nic"
+      root:
+        path: "/"
+        pool: "default"
+        type: "disk"
+```
+
+###### lxd_storages
+
+As of now this var does not exists, since there is no module for managing LXD [storages](https://lxd.readthedocs.io/en/latest/storage/). I will implement it as soon as I can adapt one of the existing modules.
+
+For now a default storage pool is created in **/var/snap/lxd/common/lxd/storage-pools/default** for version above 2.20 and for version before this we use **lxd init --auto**, so ... I don't really know what happens in this case since storage pools was not existing in this version, but it works !
+
+###### lxd_networks
+
+**This only works for LXD > 2.20**
+
+This is a list of LXD [networks](https://lxd.readthedocs.io/en/latest/networks/) bridges managed by LXD you want to create. Since there is no module for this, I adapted the existing lxd_profile module that I named ... [lxd_network](./library/lxd_network.py). It is included in this role, waiting for the [PR](https://github.com/ansible/ansible/pull/31428) to gain some visibility (and me taking some time to work on it).
+By default this variable contains a single default lxdbr0 bridge with ipv4 and nat support.
+
+```YAML
+lxd_networks:
+  - name: lxdbr0
+    description: "Default lxd network"
+    config:
+      ipv4.address: "192.168.56.1/24"
+      ipv4.nat: "true"
+      ipv6.address: "none"
+```
+
+###### lxd_bridge
+
+**This only works for LXD < 2.2**
+
+Before introducing networks objects in LXD, there was a service called lxd-bridge in charge of managing a single bridge using a configuration [file](./templates/lxd-bridge.j2). Use this variable to customize it :
+By default it will create an lxdbr0 bridge with ipv4 and nat support.
+
+```YAML
+lxd_bridge:
+  ipv4:
+    address: "192.168.56.1/24"
+    nat: "true"
+  ipv6:
+    address: "fd26:9b5f:cdb1:7756::1/64"
+    nat: "true"
+```
+
+###### lxd_containers
+
+# ToDo
 
 Example Playbook
 ----------------
 
+# ToDo
     - hosts: servers
       roles:
          - { role: ansible-role-lxd-deploy }
