@@ -111,12 +111,39 @@ lxd_bridge:
 
 ###### lxd_containers
 
-# ToDo
+This is a list of LXD [containers](https://lxd.readthedocs.io/en/latest/containers/) that will be deployed. It uses the ansible [lxd_container](https://docs.ansible.com/ansible/devel/modules/lxd_container_module.html) module for deploying them.
+
+There is no default value for this var.
+
+```YAML
+lxd_containers:
+  - name: container-full-options
+    type: image                                # default
+    mode: pull                                 # default
+    server: https://images.linuxcontainers.org # default
+    protocol: simplestreams                    # default
+    alias: ubuntu/18.04/amd64
+    profiles:                                  # default to ['default']
+      - default
+      - other_profile
+    devices:                                   # default to {}
+      eth1:
+        nictype: "bridged"
+        parent: "lxdbr0"
+        type: "nic"
+
+  - name: container-shorter-options
+    alias: centos/7/amd64
+```
 
 Tags
 ----
 
 Here the tags that you can use to control the execution of this role :
+
+###### lxd
+
+Execute the whole role.
 
 ###### lxd_install
 
@@ -156,10 +183,17 @@ tasks:
 Example Playbook
 ----------------
 
-# ToDo
-    - hosts: servers
+Here the simplest way to use this role installing latest stable and deploying a container :
+
+```YAML
+    - hosts: localhost
+      vars:
+        lxd_containers:
+          - name: c1
+            alias: centos/7/amd64
       roles:
-         - { role: ansible-role-lxd-deploy }
+        - lxd
+```
 
 License
 -------
