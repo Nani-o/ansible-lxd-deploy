@@ -9,7 +9,7 @@
       server: "{{ item.server | default('https://images.linuxcontainers.org') }}"
       protocol: "{{ item.protocol | default('simplestreams') }}"
       alias: "{{ item.alias }}"
-    profiles: "{{ item.profiles | default({}) }}"
+    profiles: "{{ item.profiles | default(['default']) }}"
     devices: "{{ item.devices | default({}) }}"
     wait_for_ipv4_addresses: true
     url: "{{ lxd_url }}"

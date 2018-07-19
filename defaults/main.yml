@@ -28,15 +28,21 @@ lxd_bridge:
 
 # For the default profile we need to have two versions since disk device
 # have a new key pool in version 2.20 and above
+__lxd_root_device_old:
+  path: /
+  type: disk
+__lxd_root_device_new:
+  path: /
+  pool: default
+  type: disk
 __lxd_root_device: |
                 "{% if '2.0' in lxd_snap_channel %}
-                  path: "/"
-                  type: "disk"
+                {{ __lxd_root_device_old }}
                 {% else %}
-                  path: "/"
-                  pool: "default"
-                  type: "disk"
+                {{ __lxd_root_device_new }}
                 {% endif %}"
+
+lxd_default_root_device: "{{ __lxd_root_device | from_yaml }}"
 
 # Defining a default profile
 lxd_profiles:
@@ -50,5 +56,5 @@ lxd_profiles:
         nictype: "bridged"
         parent: "lxdbr0"
         type: "nic"
-      root: "{{ __lxd_root_device }}"
+      root: "{{ lxd_default_root_device }}"
 ...
