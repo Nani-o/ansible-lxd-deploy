@@ -186,13 +186,15 @@ Example Playbook
 Here the simplest way to use this role installing latest stable and deploying a container :
 
 ```YAML
-    - hosts: localhost
-      vars:
-        lxd_containers:
-          - name: c1
-            alias: centos/7/amd64
-      roles:
-        - lxd
+---
+- hosts: localhost
+  vars:
+    lxd_containers:
+      - name: c1
+        alias: centos/7/amd64
+  roles:
+    - lxd
+...
 ```
 
 License
